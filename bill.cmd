@@ -1,3 +1,5 @@
+rem config for my cmd shell
+rem shortcut to this:  C:\WINDOWS\system32\cmd.exe /k %USERPROFILE%\Tools\BATCH\Bill.cmd
 @echo off
 PATH %path%;%USERPROFILE%\Tools\util;%USERPROFILE%\Tools\BATCH;C:\MinGW\bin
 
