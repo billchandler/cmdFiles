@@ -9,11 +9,11 @@ robocopy /FP /XN /s  %USERPROFILE%\Documents\Books  \\Adam\f\wcc\Documents\Books
 title Copy from Adam
 robocopy /FP /XO /s \\Adam\f\wcc\Documents\Books %USERPROFILE%\Documents\Books
 
-title Copy to ReadyShare
+title Copy to raspy
 rem exclude newer and older files
 
 :LAST
-robocopy /FP /XN /XO /s  %USERPROFILE%\Documents\Books  \\READYSHARE\USB_Storage\Books
+robocopy /FP /XN /XO /s  %USERPROFILE%\Documents\Books  \\raspy\public\Books
 
 rem macos artifact
 del %USERPROFILE%\Documents\Books\.DS_Store
