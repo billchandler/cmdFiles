@@ -1,15 +1,23 @@
 @echo off
+
 setlocal
 rem specify the weather station here:  KCID is Cedar Rapids, KDSM is Des Moines
 rem see http://www.airportcodes.aero/-/airport-designators put the 'K' in front
 rem reports update on an hourly basis
 set DATA=KCID.TXT
+mode con: cols=95 lines=22
 
 if exist %DATA% del /q %DATA%*
 
-if Not exist %USERPROFILE%\Tools\UTIL\wget.exe goto PS
-  %USERPROFILE%\Tools\UTIL\wget -q ftp://tgftp.nws.noaa.gov/data/observations/metar/decoded/%DATA%
+
+if Not exist C:\Windows\system32\curl.exe goto PS
+  curl  ftp://tgftp.nws.noaa.gov/data/observations/metar/decoded/%DATA% -o %DATA%
   goto SKIP
+  
+  
+REM if Not exist %USERPROFILE%\Tools\UTIL\wget.exe goto PS
+  REM %USERPROFILE%\Tools\UTIL\wget -q ftp://tgftp.nws.noaa.gov/data/observations/metar/decoded/%DATA%
+  REM goto SKIP
 
 :PS 
 powershell -Command "(New-Object Net.WebClient).DownloadFile('ftp://tgftp.nws.noaa.gov/data/observations/metar/decoded/%DATA%', '%DATA%')"
@@ -49,8 +57,11 @@ title Temperature %CC%
 
 rem for /f "tokens=2,3" %%a in ('type %DATA% ^|  find /I "Dew"') do (title %%a %%b F)
 
-REM @echo.
-timeout 12
+REM using TERMINAL to indicate that the cmd window was set by a cmd file that launched the window
+REM  e.g. see bill.cmd that I use as a startup cmd file 
+REM  C:\Windows\System32\cmd.exe /k "C:\Users\wcc\Tools\batch\bill.cmd"
+IF "%TERMINAL%"=="" timeout 13
+REM if %TERMINAL%=="WINDOWS" timeout 1
 
 del %DATA%*
 
