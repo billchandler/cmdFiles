@@ -3,46 +3,51 @@
 :: Bill Chandler 5/13/2024
 :: doskey cd="%USERPROFILE%\Tools\batch\cd2.cmd" $*
 
-rem this needed to be here and not below
-set "zpresentdir=%CD%"
+										
+					  
 
-if "%~1"=="" goto blank
-IF %1==.. GOTO UP
-IF %1==- GOTO BACK
+rem this needed to be here and not below. Only used for cd -
+set "zpre=%CD%"
+
+if /I "%~1"==""  goto blank
+IF /I %1==.. GOTO UP
+IF /I %1==- GOTO BACK
 
 rem cd to given location
 
-set "zlastdir=%CD%"
-cd /d %1    
+set "zlast=%CD%"
+cd /d %1
 goto :display
 
 :BACK
-if not defined zlastdir (
-    @echo zlastdir Not defined
+if not defined zlast (
+    @echo zlast Not defined
     goto :eof
 ) else (
-    REM set zpresentdir=%CD%        rem didn't work if here
+    REM set zpre=%CD%        rem didn't work if here
 
-    cd %zlastdir% 
-    set zlastdir=%zpresentdir%
+    cd /d %zlast% 
+    set zlast=%zpre%
     goto :display
 )
 
 :UP
-set "zlastdir=%CD%"
+set "zlast=%CD%"
 cd ..
 goto :display
 
 :BLANK
-set "zlastdir=%CD%"
+set "zlast=%CD%"
 cd /d %USERPROFILE%
 goto :display
 
 :pr
-@echo zpresentdir  %zpresentdir%
-@echo zlastdir  %zlastdir%
+@echo zpre  %zpre%
+@echo zlast  %zlast%
 goto :eof
 
 :display
 for %%f in ("%CD%") do set LastPartOfFolder=%%~nf
 title %LastPartOfFolder%
+set "zpre="
+@echo %zlast%
