@@ -3,14 +3,13 @@
 :: Bill Chandler 5/13/2024
 :: doskey cd="%USERPROFILE%\Tools\batch\cd2.cmd" $*
 
-										
-					  
 
 rem this needed to be here and not below. Only used for cd -
 set "zpre=%CD%"
 
 if /I "%~1"==""  goto blank
 IF /I %1==.. GOTO UP
+IF /I %1==. GOTO :eof
 IF /I %1==- GOTO BACK
 
 rem cd to given location
